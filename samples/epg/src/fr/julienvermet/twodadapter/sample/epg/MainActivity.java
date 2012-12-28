@@ -22,6 +22,7 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,13 +42,14 @@ public class MainActivity extends Activity {
 	private RelativeLayout mTwoDContent;
 	private TwoDScrollView mTwoDScrollView;
 
-	private HashMap<Integer, ArrayList<TvProgram>> mTvChannels = new HashMap<Integer, ArrayList<TvProgram>>();
+	
+	private SparseArray<ArrayList<TvProgram>> mTvChannels = new SparseArray<ArrayList<TvProgram>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
 		mTwoDContent = (RelativeLayout) findViewById(R.id.twoDContent);
 		mTwoDScrollView = (TwoDScrollView) findViewById(R.id.twoDScrollView);
 
@@ -55,7 +57,7 @@ public class MainActivity extends Activity {
 		mEpgElementHeight = getResources().getDimension(R.dimen.epg_element_height);
 
 		mXOrigin = 1356631200;
-
+		
 		for (int i=0; i<50; i++) {
 			ArrayList<TvProgram> channel = new ArrayList<TvProgram>();
 			TvProgram tvProgram1 = new TvProgram(1356631200, 1356634800, "Program"+ (i+1));
@@ -75,7 +77,8 @@ public class MainActivity extends Activity {
 	private ArrayList<Integer> getVisibleChannels(float y1, float y2) {
 		ArrayList<Integer> visibleChannels = new ArrayList<Integer>();
 		int channelY = 0;
-		for (int i=0; i<mTvChannels.keySet().size(); i++) {
+		
+		for (int i=0; i<mTvChannels.size(); i++) {
 			if ((channelY >= y1 && channelY <= y2) || (channelY+mEpgElementHeight >= y1 && channelY+mEpgElementHeight <= y2)) {
 				visibleChannels.add(i);
 			}
@@ -110,16 +113,6 @@ public class MainActivity extends Activity {
 		@Override
 		protected TextView newView() {
 			return (TextView) mInflater.inflate(R.layout.epg_element, null);
-		}
-
-		@Override
-		protected int getElementHeight(TvProgram data) {
-			return (int) mEpgElementHeight;
-		}
-
-		@Override
-		protected int getElementWidth(TvProgram data) {
-			return (int) getProgramWidth(data.startTime, data.endTime);
 		}
 
 		@Override

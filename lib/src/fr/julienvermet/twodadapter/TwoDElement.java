@@ -18,9 +18,11 @@ package fr.julienvermet.twodadapter;
 
 /**
  * Element to add on TwoDScrool
+ * 
  * @author Julien Vermet
- *
- * @param <Data> Data type
+ * 
+ * @param <Data>
+ *            Data type
  */
 public class TwoDElement<Data> {
 	public float x;
@@ -29,27 +31,24 @@ public class TwoDElement<Data> {
 	public float height;
 	public Data value;
 
-	public TwoDElement(float x, float y, Data value) {
-		super();
-		this.x = x;
-		this.y = y;
-		this.value = value;
-	}
-	
+	/**
+	 * TwoDElement Constructor
+	 * 
+	 * You must always specify width and height, otherwise, the adapter won't be
+	 * able to determine if a view must be shown
+	 * 
+	 * @param x : Position on X axis
+	 * @param y : Position on Y axis
+	 * @param width : Element width
+	 * @param height : Element height
+	 * @param value : Data used to bind view
+	 */
 	public TwoDElement(float x, float y, float width, float height, Data value) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.value = value;
-	}
-
-	public TwoDElement(float x, float y, float width, Data value) {
-		super();
-		this.x = x;
-		this.y = y;
-		this.width = width;
 		this.value = value;
 	}
 }

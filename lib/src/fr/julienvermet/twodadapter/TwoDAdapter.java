@@ -89,8 +89,6 @@ ScrollListener, ViewTreeObserver.OnGlobalLayoutListener {
 		float scrollTop = mTwoDScrollView.getScrollY();
 		float scrollBottom = scrollTop + mTwoDScrollViewHeight;
 
-//		if (DEBUG) Log.d(LOG_TAG, "scrollTop:"+ scrollTop);
-
 		// Check non-visible elements
 		Iterator entries = mViewsInUse.entrySet().iterator();
 		while (entries.hasNext()) {
@@ -102,7 +100,7 @@ ScrollListener, ViewTreeObserver.OnGlobalLayoutListener {
 			float viewRight = viewLeft + view.getWidth();
 			float viewTop = getViewPositionY(view);
 			float viewBottom = viewTop + view.getHeight();
-			
+
 			if (!(isVisibleOnX(viewLeft, viewRight, scrollLeft, scrollRight) && isVisibleOnY(
 					viewTop, viewBottom, scrollTop, scrollBottom))) {
 				mViewsInUse.remove(data);
@@ -114,9 +112,9 @@ ScrollListener, ViewTreeObserver.OnGlobalLayoutListener {
 		for (TwoDElement<Data> element : getElements(scrollLeft, scrollRight,
 				scrollTop, scrollBottom)) {
 			float dataLeft = element.x;
-			float dataRight = element.x + getElementWidth((Data) element.value);
+			float dataRight = element.x + element.width;
 			float dataTop = element.y;
-			float dataBottom = element.y + getElementHeight((Data) element.value);
+			float dataBottom = element.y + element.height;
 
 			if (isVisibleOnX(dataLeft, dataRight, scrollLeft, scrollRight) && isVisibleOnY(dataTop, dataBottom, scrollTop, scrollBottom)) {
 				if (!mViewsInUse.containsKey(element.value)) {
@@ -136,7 +134,7 @@ ScrollListener, ViewTreeObserver.OnGlobalLayoutListener {
 			mTwoDContent.removeView(view);
 			mViewsBucket.push(view);
 		}
-		
+
 		mTwoDContent.requestLayout();
 	}
 
@@ -169,15 +167,6 @@ ScrollListener, ViewTreeObserver.OnGlobalLayoutListener {
 	protected abstract V newView();
 
 	/**
-	 * Estimate element height to know if an element must be drawn.
-	 * @param data
-	 * @return Height
-	 */
-	protected abstract int getElementHeight(Data data);
-
-	protected abstract int getElementWidth(Data data);
-
-	/**
 	 * Create or recycle a view
 	 * @return View created or recycled
 	 */
@@ -197,7 +186,7 @@ ScrollListener, ViewTreeObserver.OnGlobalLayoutListener {
 			return view;
 		}
 	}
-
+	
 	/**
 	 * Check if a view/element is visible on X axis
 	 * @param x1 : Left position
@@ -298,11 +287,7 @@ ScrollListener, ViewTreeObserver.OnGlobalLayoutListener {
 	 */
 	protected void setViewSize(View view, int width, int height) {
 		LayoutParams layoutParams = (LayoutParams) view.getLayoutParams();
-		if (width != 0) {
-			layoutParams.width = width;
-		}
-		if (height != 0) {
-			layoutParams.height = height;
-		}
+		layoutParams.width = width;
+		layoutParams.height = height;
 	}
 }

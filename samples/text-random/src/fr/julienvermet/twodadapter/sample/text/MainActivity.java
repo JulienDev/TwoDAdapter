@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import fr.julienvermet.twodadapter.TwoDAdapter;
@@ -48,10 +47,10 @@ public class MainActivity extends Activity {
 		float twoDContentHeight = getResources().getDimension(R.dimen.twod_content_height);
 
 		for (int i=0; i<5000; i++) {
-			double randomX = (int)(Math.random() * twoDContentWidth);
-			double randomY = (int)(Math.random() * twoDContentHeight);
+			float randomX = (float) (Math.random() * twoDContentWidth);
+			float randomY = (float) (Math.random() * twoDContentHeight);
 			
-			TwoDElement<String> element = new TwoDElement<String>((int) randomX, (int) randomY, "data" + i);
+			TwoDElement<String> element = new TwoDElement<String>(randomX, randomY, 0, 0, "data" + i);
 			mElements.add(element);
 		}
 		new TwoDContentAdapter(mTwoDScrollView, mTwoDContent);
@@ -71,16 +70,6 @@ public class MainActivity extends Activity {
 		@Override
 		protected TextView newView() {
 			return new TextView(MainActivity.this);
-		}
-
-		@Override
-		protected int getElementHeight(String data) {
-			return 100;
-		}
-
-		@Override
-		protected int getElementWidth(String data) {
-			return 300;
 		}
 
 		@Override

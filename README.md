@@ -7,6 +7,25 @@ Two Dimensional Adapter is an Android component. If you are familiar with Androi
 
 For the first release, this component is not exactly an adapter because it doesn't extend AdapterView and scroll is performed by a TwoDScrollView thanks to GORGES : http://blog.gorges.us/2010/06/android-two-dimensional-scrollview/ .
 
+How it works
+===========
+
+render()
+--------
+
+Each time you scroll the adapter will enter in render() method: 
+
+1. Check if current added views are still visibles. If a view has disappeared since previous render, view will be added to a viewWillDisappear bucket. If it's still visible, do nothing.
+2. Iterate all TwoDElements given by the program, and check if an element must be added on screen. If element must be shown, call getView() then bindView().
+3. Remove unused views in viewWillDisappear and push it in a global view bucket.
+
+getView()
+---------
+
+1. Returns a view from viewWillDisappear (if not empty)
+2. Else, returns a view from global view bucket (if not empty)
+3. Else, create a newView()
+
 
 Developed By
 ===========
